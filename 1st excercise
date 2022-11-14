@@ -1,0 +1,35 @@
+user@user-virtual-machine:~/ecarlbr$ docker build -t heythereimage:v1 .
+Sending build context to Docker daemon  4.608kB
+Step 1/5 : FROM haskell
+ ---> 3cbb15175480
+Step 2/5 : WORKDIR /app
+ ---> Using cache
+ ---> 6fb07fbc4f8e
+Step 3/5 : COPY heythere.hs /app
+ ---> e72164e33b2f
+Step 4/5 : RUN ghc -o heythere heythere.hs
+ ---> Running in 209a5d394c82
+[1 of 2] Compiling Main             ( heythere.hs, heythere.o )
+[2 of 2] Linking heythere
+Removing intermediate container 209a5d394c82
+ ---> 39ffbd08694e
+Step 5/5 : CMD [ "/app/heythere" ]
+ ---> Running in fdb1a5dbbc06
+Removing intermediate container fdb1a5dbbc06
+ ---> 7c064a280b8b
+Successfully built 7c064a280b8b
+Successfully tagged heythereimage:v1
+user@user-virtual-machine:~/ecarlbr$ docker run -rm heythereimage:v1
+unknown shorthand flag: 'r' in -rm
+See 'docker run --help'.
+user@user-virtual-machine:~/ecarlbr$ docker run  heythereimage:v1
+Hey, There with Haskell, by @ecarlbr!
+user@user-virtual-machine:~/ecarlbr$ cat Dockerfile 
+FROM haskell
+WORKDIR /app
+COPY heythere.hs /app
+RUN ghc -o heythere heythere.hs
+CMD [ "/app/heythere" ]
+user@user-virtual-machine:~/ecarlbr$ cat heythere.hs 
+main = putStrLn "Hey, There with Haskell, by @ecarlbr!"
+user@user-virtual-machine:~/ecarlbr$ 
